@@ -1,6 +1,8 @@
+<%@ page import="com.fy.pojo.Order" %>
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="../../baselist.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>--%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,8 +19,8 @@
             if (text == "") {
                 alert("拒签原因不能为空！！！")
                 return
-            }else{
-               var remark=$("input[name='hhOrdersRemarks']").val().trim()+"<br />"+text;
+            } else {
+                var remark = $("input[name='hhOrdersRemarks']").val().trim() + "<br />" + text;
                 $("input[name='hhOrdersRemarks']").val(remark);
             }
             </c:if>
@@ -121,7 +123,7 @@
         td {
         / / border: 1 px solid red;
             font-family: "微软雅黑", Arial, sans-serif;
-            color: #4cae4c;;
+            color: #4cae4c;
             font-size: 14px;
             line-height: 20px;
             width: 250px;
@@ -190,7 +192,20 @@
                         </tr>
                         <tr class="odd">
                             <td class="tda">图片:</td>
-                            <td colspan="3"><img src="${order.houseInfo.hhHouseImg}" width="150px" height="150px"></td>
+                            <td colspan="3">
+                                <% Order order = (Order) request.getAttribute("order");
+                                    String imgUrlB = order.getHouseInfo().getHhHouseImg();
+                                    String[] imgUrls = imgUrlB.split(",");
+                                    int len = 3;
+                                    if (imgUrls.length < len) {
+                                        len = imgUrls.length;
+                                    }
+                                    for (int i = 0; i < len; i++) {
+                                        String imgUrl = imgUrls[i];
+                                %>
+                                <img src="/personal/order/getImgUrl?imgUrl=<%=imgUrl %>" width="150px" height="150px">
+                                <% } %>
+                            </td>
                         </tr>
                         <tr class="odd">
                             <td class="tda">房源名:</td>
@@ -201,11 +216,12 @@
                             <td>${order.hhOrdersId}</td>
                         </tr>
                         <td class="tda">订单状态:</td>
-                        <td><c:if test="${order.hhOrdersStatus==1}"><span style="color:red">审核中</span></c:if>
+                        <td><c:if test="${order.hhOrdersStatus==1}"><span style="color:red">订单审核中</span></c:if>
                             <c:if test="${order.hhOrdersStatus==2}"><span style="color:red">审核未通过</span></c:if>
                             <c:if test="${order.hhOrdersStatus==3}">已入住</c:if>
                             <c:if test="${order.hhOrdersStatus==4}">已退房</c:if>
                             <c:if test="${order.hhOrdersStatus==5}">已取消</c:if>
+                            <c:if test="${order.hhOrdersStatus==6}"><span style="color:red">退租审核中</span></c:if>
                         </td>
                         <td class="tda">生成时间:</td>
                         <td colspan="3"><fmt:formatDate value="${order.houseInfo.createTime}"
@@ -317,6 +333,14 @@
                                 <input type="hidden" value="${order.hhOrdersRemarks}" name="hhOrdersRemarks">
                             </tr>
                         </c:if>
+                        <c:if test="${order.hhOrdersStatus==6}">
+                            <tr class="odd">
+                                <td class="tda" colspan="4"
+                                    style="font-size: 16px; text-align: center; color: #000; padding-top: 5px;padding-bottom: 5px">
+                                <input type="radio" name ="userStatus" value="0" />停用用户
+                                </td>
+                            </tr>
+                        </c:if>
                         <tr class="odd">
                             <td class="tda"></td>
                             <td class="tda" colspan="3"
@@ -325,7 +349,7 @@
                                     <ul>
                                         <li id="back"><a href="#" onclick=" window.history.go(-1)">返回</a></li>
                                         <c:if test="${order.hhOrdersStatus==1}">
-                                            <li id="delete"><a href="#"
+                                            <li id="save1"><a href="#"
                                                                onclick="alt('取消订单','cancel','_self');this.blur();">取消订单</a>
                                             </li>
                                         </c:if>
@@ -338,17 +362,17 @@
                                         </shiro:hasPermission>
                                         <shiro:hasPermission name="管理员">
                                             <c:if test="${order.hhOrdersStatus==1}">
-                                                <li id="new"><a href="#"
+                                                <li id="save1"><a href="#"
                                                                 onclick="alt('签约订单','updateStatus/3','_self');this.blur();">签约订单</a>
                                                 </li>
                                             </c:if>
                                             <c:if test="${order.hhOrdersStatus==1}">
-                                                <li id="new"><a href="#"
+                                                <li id="save1"><a href="#"
                                                                 onclick="alt('拒签订单','updateStatus/2','_self');this.blur();">拒签订单</a>
                                                 </li>
                                             </c:if>
-                                            <c:if test="${order.hhOrdersStatus==3}">
-                                                <li id="new"><a href="#"
+                                            <c:if test="${order.hhOrdersStatus==6}">
+                                                <li id="save1"><a href="#"
                                                                 onclick="alt('同意退房','updateStatus/4','_self');this.blur();">同意退房</a>
                                                 </li>
                                             </c:if>

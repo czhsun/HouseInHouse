@@ -14,7 +14,6 @@ import java.util.List;
 public interface OrderMapper {
     public void createOrder(Order order);
 
-
     List<Order> findAll();
 
     List<Order> findOrdersByUserId(String hhUserId);
@@ -30,5 +29,7 @@ public interface OrderMapper {
     void updateOrderRemarks(@Param("hhOrdersRemarks")String hhOrdersRemarks, @Param("hhOrdersId")String hhOrdersId);
     @Select("select * from hh_house where hh_house_id =#{hh_house_id}")
     HouseInfo findHouseInfoById(String houseInfoId);
+
+
 }
 

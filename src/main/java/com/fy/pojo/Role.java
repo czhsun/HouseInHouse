@@ -9,44 +9,60 @@ public class Role extends BaseEntity {
     private String hhRoleRemarks;
     private Integer hhRoleOrderNo;
     private Integer hhRoleStatus;
+    private Boolean  checked;
 
-    public String gethhRoleId() {
+
+    public  String getId(){
+        return hhRoleId;
+    }
+    public  String getName(){
+        return hhRoleName;
+    }
+    public String getHhRoleId() {
         return hhRoleId;
     }
 
-    public void sethhRoleId(String hhRoleId) {
+    public void setHhRoleId(String hhRoleId) {
         this.hhRoleId = hhRoleId;
     }
 
-    public String gethhRoleName() {
+    public String getHhRoleName() {
         return hhRoleName;
     }
 
-    public void sethhRoleName(String hhRoleName) {
+    public void setHhRoleName(String hhRoleName) {
         this.hhRoleName = hhRoleName;
     }
 
-    public String gethhRoleRemarks() {
-        return hhRoleRemarks;
-    }
-
-    public void sethhRoleRemarks(String hhRoleRemarks) {
-        this.hhRoleRemarks = hhRoleRemarks;
-    }
-
-    public Integer gethhRoleOrderNo() {
+    public Integer getHhRoleOrderNo() {
         return hhRoleOrderNo;
     }
 
-    public void sethhRoleOrderNo(Integer hhRoleOrderNo) {
+    public void setHhRoleOrderNo(Integer hhRoleOrderNo) {
         this.hhRoleOrderNo = hhRoleOrderNo;
     }
 
-    public Integer gethhRoleStatus() {
+    public String getHhRoleRemarks() {
+        return hhRoleRemarks;
+    }
+
+    public void setHhRoleRemarks(String hhRoleRemarks) {
+        this.hhRoleRemarks = hhRoleRemarks;
+    }
+
+    public Integer getHhRoleStatus() {
         return hhRoleStatus;
     }
 
-    public void sethhRoleStatus(Integer hhRoleStatus) {
+    public void setHhRoleStatus(Integer hhRoleStatus) {
         this.hhRoleStatus = hhRoleStatus;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 }

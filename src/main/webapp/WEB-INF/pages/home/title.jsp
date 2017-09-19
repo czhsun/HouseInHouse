@@ -1,7 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ include file="../base.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%--<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>--%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <jsp:useBean id="now" class="java.util.Date"/>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -225,6 +226,7 @@
 
 <div class="PositionFrame_black" id="PositionFrame"></div>
 <div id="userInfo" style="z-index:999;" onclick="HideLoginDiv()" title="点击关闭">
+    <a onclick="window.open('index.html')">首页</a>
     <img src="${ctx}/staticfile/skin/default/images/title/avataronline.gif" border="0" style="margin-top:-1px;"/>
     您好：<strong>${SessionUser.hhUserName}</strong>&nbsp;&nbsp;|
     您所属单位：<strong>
@@ -234,6 +236,8 @@
 </strong>&nbsp;&nbsp;
     <img src="${ctx}/staticfile/skin/default/images/title/close.gif" border="0"/>
 </div>
+
+
 
 <a id="memos" style="cursor:pointer;" onclick="toModule('home');" target="_top" title="点击切换到系统首页">
     <div id="memo" class="memo" title="点击切换到系统首页"></div>
@@ -265,10 +269,21 @@
                             <span id="topmenu" onclick="toModule('personal');">订单管理</span><span
                                 id="tm_separator"></span>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="管理员">
+                            <span id="topmenu" onclick="toModule('house');">管理</span><span
+                                id="tm_separator"></span>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="管理员">
                         <span id="topmenu" onclick="toModule('baseinfo');">基础信息</span><span id="tm_separator"></span>
+                        </shiro:hasPermission>
 
-
+                        <shiro:hasPermission name="管理员">
                         <span id="topmenu" onclick="toModule('sysadmin');">系统管理</span>
+                        </shiro:hasPermission>
+
+                        <shiro:hasPermission name="管理员">
+                            <span id="topmenu" onclick="toModule('chart');">图表统计</span>
+                        </shiro:hasPermission>
 
                     </div>
                     <span id="rightKey" onmouseover="periodOffset(this, 'right')"><img

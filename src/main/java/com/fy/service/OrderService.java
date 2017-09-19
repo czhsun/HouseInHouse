@@ -16,8 +16,6 @@ import java.util.List;
 public interface OrderService {
 
 
-
-
     /**
      * 发送验证短信
 
@@ -87,4 +85,6 @@ public interface OrderService {
     public List<Order> findOrdersByStatus(int status);
 
     public HouseInfo findHouseInfoById(String houseInfoId);
+
+    void auto();
 }

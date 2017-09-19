@@ -35,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
 
+
+
     public int SendVerfyCode(Order order) throws ClientException, InterruptedException {
         String type = "1";//发送验证吗
         return SendVerfyCodeReal(order, type);
@@ -43,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(Order order, int numPer) throws MegException {
         HouseInfo houseInfo = null;
-        //houseInfo=houseInfoMapper.findHouseInfoById(HouseInfoId);
+        houseInfo=orderMapper.findHouseInfoById(order.getHouseInfo().getHhHouseId());
         if ((houseInfo.getHhHouseMaxnum() - houseInfo.getHhHouseResidenum()) >= numPer) {
             order.setCreateBy("Order");
             order.setCreateTime(new Date());
@@ -156,7 +158,7 @@ public class OrderServiceImpl implements OrderService {
     public void checkOutOrder(String hhOrdersId) throws MegException {
         Order order = orderMapper.findOrderByOrderId(hhOrdersId);
         if (order.getHhOrdersStatus() == 3) {
-            String status = "4";
+            String status = "6";
             orderMapper.updateOrderStatus(hhOrdersId, status);
             SendVerfyCodeReal(order, "6");
 
@@ -179,5 +181,7 @@ public class OrderServiceImpl implements OrderService {
     public HouseInfo findHouseInfoById(String houseInfoId) {
         return orderMapper.findHouseInfoById(houseInfoId);
     }
-
+    public void auto(){
+        System.out.println("OrderServiceImpl定时任务中");
+    }
 }
